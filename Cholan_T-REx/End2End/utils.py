@@ -1,32 +1,21 @@
-import tensorflow as tf
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+
 import torch
-import pandas as pd
-from keras.preprocessing.sequence import pad_sequences
-from sklearn.model_selection import train_test_split
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
-from transformers import BertTokenizer
-from transformers import BertForSequenceClassification, AdamW, BertConfig
-from transformers import get_linear_schedule_with_warmup
-import numpy as np
-import time
 import datetime
-import math
-import random
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import matthews_corrcoef, classification_report, accuracy_score, confusion_matrix
-import os
 import logging
 
 logger = logging.getLogger(__name__)
 
-## Default file and trained model location ##
-#data_dir = "/data/prabhakar/CG/NED_data/"
+# Default file and trained model location
+# data_dir = "/data/prabhakar/CG/NED_data/"
 data_dir = "/data/prabhakar/CG/NED_data/without_localcontext/"
 test_data_dir = data_dir + "data_test_5/"
-#output_dir = "/data/prabhakar/CG/NED_pretrained/model_data_50000/"
+# output_dir = "/data/prabhakar/CG/NED_pretrained/model_data_50000/"
 output_dir = "/data/prabhakar/CG/NED_pretrained/without_localcontext/"
-## CUDA devices ##
+
+# CUDA devices
 if torch.cuda.is_available():
     torch.cuda.set_device(0)
     device = torch.device("cuda")
@@ -35,13 +24,14 @@ else:
     print('No GPU available, using the CPU instead.')
     device = torch.device("cpu")
 
-## Hyperparameters ##
+# Hyperparameters
 MAX_LEN = 32
 batch_size = 4
 epochs = 4
 
+
 def format_time(elapsed):
-    elapsed_rounded = int(round((elapsed)))
+    elapsed_rounded = int(round(elapsed))
     return str(datetime.timedelta(seconds=elapsed_rounded))
 
 
@@ -51,7 +41,7 @@ def plot_loss(loss_values, label=None):
 
     # Increase the plot size and font size.
     sns.set(font_scale=1.5)
-    plt.rcParams["figure.figsize"] = (12,6)
+    plt.rcParams["figure.figsize"] = (12, 6)
 
     # Plot the learning curve.
     plt.plot(loss_values, 'b-o')
@@ -76,14 +66,3 @@ def compute_metrics(preds_flat, labels_flat):
     print('Report : ', report)
 
     return matrix_results, accuracy, report
-
-'''
-def read_csv_file():
-
-    return df
-
-def to_csv_file(df_file, data_dir, file_name, sep, index, columns):
-    df_file.to_csv(data_dir + "predicted_data.tsv", index, sep, columns)
-
-'''
-

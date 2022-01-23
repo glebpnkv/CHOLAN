@@ -1,15 +1,17 @@
-import torch
 import numpy as np
-from sklearn.metrics import matthews_corrcoef, classification_report, accuracy_score, confusion_matrix
-from utils import *
+import torch
+import os
+from sklearn.metrics import matthews_corrcoef
+from utils import compute_metrics, logger
 from cholan import predict_data_dir
+
 
 # Prediction on test set
 def test(model, test_dataloader):
     print('Predicting labels for {:,} test sentences...'.format(len(test_dataloader)))
 
     if torch.cuda.is_available():
-        #torch.cuda.set_device(1)
+        # torch.cuda.set_device(1)
         device = torch.device("cuda")
         print('GPU available -', device)
     else:
@@ -24,7 +26,7 @@ def test(model, test_dataloader):
 
     # Predict
     for batch in test_dataloader:
-        #batch = tuple(t.to(device) for t in batch)
+        # batch = tuple(t.to(device) for t in batch)
 
         b_input_ids = batch[0].to(device)
         b_input_mask = batch[1].to(device)
@@ -53,7 +55,7 @@ def test(model, test_dataloader):
     # For each input batch...
     for i in range(len(true_labels)):
         pred_labels_i = np.argmax(predictions[i], axis=1).flatten()
-        #print(pred_labels_i)
+        # print(pred_labels_i)
 
         # Calculate and store the coef for this batch.
         matthews = matthews_corrcoef(true_labels[i], pred_labels_i)
