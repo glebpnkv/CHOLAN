@@ -1,6 +1,7 @@
 from bert_ner import Ner
 import pandas as pd
 
+
 def predict_NER(model, df):
     final_entity_list = []
     predicted_entity_list = []
@@ -61,6 +62,7 @@ def predict_NER(model, df):
 
     return df
 
+
 def check_entity(target_list, predicted_list):
     check_entity_list = []
     predicted = [e.split('EntityMentionSEP') for e in predicted_list]
@@ -68,11 +70,12 @@ def check_entity(target_list, predicted_list):
     check_entity_list = target_list
     return check_entity_list
 
+
 if __name__ == '__main__':
     dataset = "ace2004"
-    # predict_data_type = dataset + "/Cholan_AIDA/data_full/Indexed"
-    # predict_data_dir = "/data/prabhakar/CG/CONLL-AIDA/prediction_data/" + predict_data_type + "/"
     predict_data_type = "data_full/Indexed/"
+
+    # TODO[グ fix hard-coded paths
     predict_data_dir = "/data/prabhakar/CG/WNED/" + dataset + "/prediction_data/" + predict_data_type
 
     ner_model_dir = "/data/prabhakar/manoj/code/NER/BERT-NER-CoNLL/pretrained_ner/"

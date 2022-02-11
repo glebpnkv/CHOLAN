@@ -18,6 +18,12 @@ CHOLAN : A Modular Approach for Neural Entity Linking on Wikipedia and Wikidata 
 ## Setup 
 Requirements: Python 3.6 or 3.7, torch>=1.2.0
 
+Run the following to create a conda virtual environment:
+
+```bash
+conda env create -f requirements.yml
+```
+
 ## Running 
 python cholan.py &nbsp;  
 

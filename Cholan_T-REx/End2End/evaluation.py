@@ -1,4 +1,4 @@
-from post_processing import *
+from post_processing import split_qids
 
 import math
 import pandas as pd
@@ -55,6 +55,8 @@ def metrics(tp, fp, fn):
 
 
 if __name__ == '__main__':
+
+    # TODO[グ fix hard-coded paths
     data_dir = "/data/prabhakar/CG/prediction_data/data_10000/"
     df_target = pd.read_csv(data_dir+"target_data_sent.tsv", sep='\t')
     df_predicted = pd.read_csv(data_dir+"predicted_data_sent.tsv", sep='\t')

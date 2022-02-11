@@ -42,8 +42,11 @@ def create_prediction_data(tokenizer, df):
 
 if __name__ == '__main__':
 
+    # TODO[グ fix hard-coded paths
     predict_dir = "/data/prabhakar/CG/prediction_data/"
     predict_data_dir = predict_dir + "data_10000/"
+
+    # TODO[グ fix hard-coded paths
     output_dir = "/data/prabhakar/CG/NED_pretrained/without_localcontext/"
 
     df_input = pd.read_csv(predict_data_dir + "ned_data.tsv", encoding='utf-8', usecols=['sequence', 'label'], sep='\t')

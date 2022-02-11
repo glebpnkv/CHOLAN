@@ -1,38 +1,32 @@
-import os
-import torch
 import pandas as pd
-import pickle
-from collections import defaultdict
-import numpy as np
-import time
-import sys
-import string
-import requests, json
+import requests
 import collections
 
+
 def get_wikidata_id(wikipedia_title):
-    wikidata_Qids_List = []
+    wikidata_qids_list = []
 
     for i, title in enumerate(wikipedia_title):
         try:
             url = 'https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&ppprop=wikibase_item&titles=%s&format=json' % str(title)
             response = requests.get(url).json()['query']['pages']
-            df = pd.io.json.json_normalize(response)
+            df = pd.json_normalize(response)
             df.columns = df.columns.map(lambda x: x.split(".")[-1])
             wikidata_id = df.get(key='wikibase_item').values
 
-            wikidata_Qids_List.append(wikidata_id[0])
+            wikidata_qids_list.append(wikidata_id[0])
         except:
             print("Invalid Title - ", title)
-            wikidata_Qids_List.append("NA")
+            wikidata_qids_list.append("NA")
 
-    return wikidata_Qids_List
+    return wikidata_qids_list
 
 
-def readfile1(filename):
-    '''
+def readfile(filename):
+    """
     read file
-    '''
+    """
+
     f = open(filename)
     sentence_data = []
     entity_data = []
@@ -47,8 +41,6 @@ def readfile1(filename):
                 entity = list(entity_dict.keys())
                 wiki_title_dict = collections.OrderedDict.fromkeys(wiki_title)
                 wiki_title = list(wiki_title_dict.keys())
-                #entity = list(set(entity))
-                #wiki_title = list(set(wiki_title))
 
                 sentence_data.append(sentence)
                 entity_data.append(entity)
@@ -64,16 +56,9 @@ def readfile1(filename):
             wiki_title.append(splits[4][len("http://en.wikipedia.org/wiki/"):].replace('_', ' '))
 
     if len(sentence) > 0:
-        #entity_dict = collections.OrderedDict.fromkeys(entity)
-        #entity = list(entity_dict.keys())
-        #wiki_title_dict = collections.OrderedDict.fromkeys(wiki_title)
-        #wiki_title = list(wiki_title_dict.keys())
         sentence_data.append(sentence)
         entity_data.append(entity)
         wiki_title_data.append(wiki_title)
-        sentence = []
-        entity = []
-        wiki_title = []
     return create_df(sentence_data, entity_data, wiki_title_data)
 
 
@@ -82,7 +67,6 @@ def create_df(sentence_list, entity_list, wiki_title_list):
     total_entity_count = 0
     total_wiki_entity_count = 0
     for i in range(0, len(sentence_list)):
-        #for j in range(0, len(sentence_list)-1):
         sentence = ' '.join(token for token in sentence_list[i])
         wikidata_id = get_wikidata_id(wiki_title_list[i])
         total_entity_count += len(wiki_title_list[i])
@@ -99,22 +83,13 @@ def create_df(sentence_list, entity_list, wiki_title_list):
     df_file = df_file.fillna('NIL_ENT')
     return df_file
 
+
 if __name__ == '__main__':
+
+    # TODO[グ fix hard-coded paths
     data_dir = "/data/prabhakar/CG/CONLL-AIDA/AIDA_data/"
     in_file = data_dir + "testb.txt"
     out_file = data_dir + "cholan_aida_testb.txt"
 
-    #dataset = "ace2004"
-    #data_dir = "/data/prabhakar/CG/WNED/"+ dataset +"/"
-    #in_file = data_dir + dataset + "_sample.conll"
-    #out_file = data_dir + dataset + "_cholan_test_sample.txt"
-
-    #df_infile = pd.read_csv(in_file, sep='\t', encoding='utf-8')
-    #readfile(in_file, out_file)
-
-    df_file = readfile1(in_file)
-    df_file.to_csv(out_file , sep='\t', encoding='utf-8', index=False)
-
-    #wikipedia_title = ["Uzbekistan national football team", "Germany"]
-    #wikidata_id = get_wikidata_id(wikipedia_title)
-    #print(wikipedia_title, " - ", wikidata_id)
+    df_file_input = readfile(in_file)
+    df_file_input.to_csv(out_file, sep='\t', encoding='utf-8', index=False)

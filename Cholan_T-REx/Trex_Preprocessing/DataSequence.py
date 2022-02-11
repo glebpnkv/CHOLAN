@@ -9,6 +9,8 @@ def calculate_sent_length(sent):
 
 # filter sentence with length and prepareVocabList
 def limit_sent_length():
+
+    # TODO[グ fix hard-coded paths
     data_dir = "/data/prabhakar/manoj/arjun/dataset/Trex_tsv_1/"
     data = pd.read_csv(
         data_dir+'merged_465_entity_uri_entity_sep.tsv',

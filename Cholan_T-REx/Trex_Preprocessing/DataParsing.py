@@ -9,11 +9,14 @@ pd.set_option('display.max_colwidth', -1)
 
 # Initialization
 print("--Data Parsing--")
+# TODO[グ fix hard-coded paths
 trex_path = '/data/prabhakar/manoj/arjun/dataset/Trex_raw/'
-# trex_path = '../dataset/sample/trex_sample/'
+
+# TODO[グ fix hard-coded paths
 entityData_Sep_dir = "/data/prabhakar/manoj/arjun/dataset/Trex_tsv_1/"
 doc_id = 0
 
+# TODO[グ fix hard-coded paths
 df_input = pd.read_csv(
     '/data/prabhakar/manoj/arjun/dataset/entityData_Sep/' + 'WikidataLabel_clean.csv',
     encoding='utf-8',

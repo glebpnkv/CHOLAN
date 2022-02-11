@@ -123,5 +123,4 @@ class Ner:
         words = word_tokenize(text)
         assert len(labels) == len(words)
         output = [[word, label] for word, (label, confidence) in zip(words, labels) if label == 'B-ENT' or 'I-ENT']
-#        output = [{"word":word,"tag":label,"confidence":confidence} for word,(label,confidence) in zip(words,labels)]
         return output

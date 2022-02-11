@@ -8,11 +8,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Default file and trained model location
-# data_dir = "/data/prabhakar/CG/NED_data/"
+# TODO[グ fix hard-coded paths
 data_dir = "/data/prabhakar/CG/NED_data/without_localcontext/"
 test_data_dir = data_dir + "data_test_5/"
-# output_dir = "/data/prabhakar/CG/NED_pretrained/model_data_50000/"
+
+# TODO[グ fix hard-coded paths
 output_dir = "/data/prabhakar/CG/NED_pretrained/without_localcontext/"
 
 # CUDA devices

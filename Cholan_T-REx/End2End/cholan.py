@@ -1,11 +1,16 @@
+from transformers import BertTokenizer, BertForSequenceClassification
+
 from bert_ner import Ner
-from predict_ned import *
+from predict_ned import create_prediction_data, test
 from predict_ner import predict_ner
-from post_processing import *
-from NED_Dataset_Creation import *
+from post_processing import combine_sentence, process_sequence
 from evaluation import el_evaluation
 
+import pandas as pd
+
 predict_data_size = "10000"
+
+# TODO[グ fix hard-coded paths
 predict_data_dir = "/data/prabhakar/CG/prediction_data/data_" + predict_data_size + "/"
 ned_model_dir = "/data/prabhakar/CG/NED_pretrained/model_data_50000/"
 ner_model_dir = "/data/prabhakar/manoj/code/NER/BERT-NER/pretrained_TREX_models/out_base_2/"

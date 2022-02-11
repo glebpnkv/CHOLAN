@@ -89,6 +89,8 @@ def process_dataset(df, size):
 
 
 if __name__ == '__main__':
+
+    # TODO[グ fix hard-coded paths
     data_dir = "/data/prabhakar/CG/prediction_data/data_10000/"
     df_input = pd.read_csv(data_dir + "ner_data.tsv",
                            sep='\t',
